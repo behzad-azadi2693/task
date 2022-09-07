@@ -2,14 +2,20 @@ from rest_framework import serializers
 from itertools import groupby
 import re
 
+
+default_error_messages = {
+    'blank': 'این فیلد الزامی است'
+}
+
 class NameSerializer(serializers.Serializer):
-    name = serializers.CharField(required=True)
+    name = serializers.CharField(required=True, error_messages=default_error_messages)
 
     def validate_name(self, value):
         name = value
         msg_check_name = []                
-
         persian_pattern = r'^[آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی ]+$'
+        
+
         if len(name) < 3 :
             msg_check_name.append('طول فیلد باید بیشتر از ۳ کاراکتر باشد')
         if len(name) > 100:
@@ -27,7 +33,7 @@ class NameSerializer(serializers.Serializer):
 
 
 class CellSerializer(serializers.Serializer):
-    cell = serializers.CharField(required=True)
+    cell = serializers.CharField(required=True, error_messages=default_error_messages)
 
     def validate_cell(self, value):
         cell = value
@@ -56,7 +62,7 @@ class CellSerializer(serializers.Serializer):
 
 
 class RoadSerializer(serializers.Serializer):
-    road = serializers.CharField(required=True)
+    road = serializers.CharField(required=True, error_messages=default_error_messages)
 
     def validate_road(self, value):
         road = value
@@ -77,19 +83,20 @@ class RoadSerializer(serializers.Serializer):
 
 
 class HouseNumberSerializer(serializers.Serializer):
-    house_number = serializers.CharField(required=True)
+    house_number = serializers.CharField(required=True, error_messages=default_error_messages)
 
     def validate_house_number(self, value):
         house_number = value
         msg_check_house_number = []
         illegal_pattern = r'.*[@#\$%\^\&\*\(\)].*'
-        
+        two_char_pattern = r'.*[آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+[آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی\s].*'
+
         if 5 < len(house_number) or len(house_number) < 1:
             msg_check_house_number.append('لطفا تعداد حروف مابین ۱ تا ۵ حرف باشد')
-        
         if bool(re.match(illegal_pattern, house_number)):
             msg_check_house_number.append('کاراکترهای@#$%^&*() غیرمجاز است')
-            
+        if bool(re.match(two_char_pattern, house_number)):
+            msg_check_house_number.append('دو حرف فارسی پشت سرهم قابل قبول نیست')
         if not msg_check_house_number:
             return value
         
