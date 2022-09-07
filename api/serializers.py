@@ -82,12 +82,14 @@ class HouseNumberSerializer(serializers.Serializer):
     def validate_house_number(self, value):
         house_number = value
         msg_check_house_number = []
-        illegal_pattern = r'!@#)(&^%$'
+        illegal_pattern = r'.*[@#\$%\^\&\*\(\)].*'
         
         if 5 < len(house_number) or len(house_number) < 1:
             msg_check_house_number.append('لطفا تعداد حروف مابین ۱ تا ۵ حرف باشد')
         
-
+        if bool(re.match(illegal_pattern, house_number)):
+            msg_check_house_number.append('کاراکترهای@#$%^&*() غیرمجاز است')
+            
         if not msg_check_house_number:
             return value
         
