@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%  block body %}
+    <div class="col-4"></div>
+    <form method="POST" novalidate class="col-6">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group row">
+              <label for="inputPassword" class="col-3 col-form-label">{{ field.label }}</label>
+              <div class="col-sm-10">
+                {{ field }}
+                <h5 class="alert-danger" id="msg_check_{{ field.name }}"></h5>
+            </div>
+            </div>
+        {% endfor %}
+        <input class="btn btn-outline-primary my-2 my-sm-0" type="submit" value="Save">
+    </form>
+{% endblock %}
+
+{% block js %} 
+    <script src="{% static 'check_field.js' %}"></script>
+{% endblock %}
