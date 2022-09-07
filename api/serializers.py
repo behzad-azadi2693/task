@@ -70,7 +70,7 @@ class RoadSerializer(serializers.Serializer):
         list_word_filter = ['بالاتر از', 'بعد از', 'نرسیده به', 'قبل از', 'روبروی', 'مقابل']
         if 50 < len(road) or len(road) < 2:
             msg_check_road.append('لطفا تعداد حروف مابین ۲ تا ۵۰ حرف باشد')
-        if len(re.split('[" " , _]',road)):
+        if len(re.split('[" " , _]',road)) > 5:
             msg_check_road.append('بیشتر از ۵ کلمه مجاز نیست عبارات جدا کننده شامل فاصله ـ , می باشد')
         if len(max(re.split('[" " , _]', road), key=len)) > 14:
             msg_check_road.append('هر کلمه نباید بیشتر از ۱۴ کاراکتر باشد')
