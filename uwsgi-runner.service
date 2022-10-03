@@ -1,0 +1,22 @@
+#this just for use system not docker
+
+[Unit]
+Description=uWSGI Runner
+Requires=network.target
+After=network.target
+
+
+[Service]
+TimeoutStartSec=0
+RestartSec=10
+Restart=always
+
+WorkingDirectory=<path to uwsgi.ini>
+KillSignall=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+ExecStart=/<path to>/venv/bin/uwsgi --ini /<path to>/uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target
