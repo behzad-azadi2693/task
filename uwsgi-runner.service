@@ -1,4 +1,10 @@
 #this just for use system not docker
+#save in path with name<uwsgi-runner.service>: /etc/systemd/system/uwsgi-runner.service
+#sudo systemctl active uwsgi-runner
+#sudo systemctl start uwsgi-runner
+#sudo systemctl status uwsgi-runner
+#sudo systemctl stop uwsgi-runner
+
 
 [Unit]
 Description=uWSGI Runner
